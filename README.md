@@ -1,2 +1,310 @@
-# FMCG
-Here is a comprehensive and professional README.md draft for your GitHub repository based on your project files and roadmap. You can copy and paste this directly into your repository.🏬 FMCG Data Warehouse Project: Medallion Architecture📌 Project OverviewThis project focuses on building a robust, enterprise-grade Data Warehouse for Fast-Moving Consumer Goods (FMCG) data. It is designed to unify and process data from two distinct business entities: Atliqon Parent (the main company) and SportsBar Acquired (a newly acquired brand).  Built as a top-tier submission for the DEPI competition , this repository currently houses a powerful on-premise SQL Server prototype that implements a strict Medallion Architecture (Bronze → Silver → Gold) to deliver clean, analytics-ready data for Business Intelligence dashboards.  🏗️ Architecture & Data PipelineThe data engineering pipeline processes synthetic FMCG data (generated via Python) through three distinct architectural layers:  🟤 1. Bronze Layer (Raw Data)Data is ingested in its raw, untransformed state into dedicated schemas: bronze_parent, bronze_acquired, and bronze_shared.  Purpose: Serves as the historical archive and original source of truth.⚪ 2. Silver Layer (Cleaned & Conformed)This layer acts as the enterprise repository where data quality rules and business logic are applied:  Data Cleaning: Standardized categories, removed numeric suffixes from product names, and normalized gender values (e.g., Male/Female → M/F).  Deduplication: Successfully identified and removed duplicate transaction records (e.g., 2000 duplicate rows in the acquired data).  Business Rules: Corrected negative profits by capping product costs at 70% of the net price.  Currency Conversion: Normalized all multi-currency transactions into USD using shared exchange rate tables.  SCD Type 2: Implemented Slowly Changing Dimensions for customer records (valid_from, valid_to, is_current) to track historical changes.  🟡 3. Gold Layer (Analytics-Ready)The presentation layer, highly optimized for BI tools like Power BI:  Unified Views: Created logical views integrating both Parent and Acquired companies into a single dataset.  Physical Materialization: Transformed views into physical tables (gold.fact_sales_table, etc.) to maximize query performance.  Optimization: Applied Clustered and Non-Clustered Indexes on highly-queried columns (dates, customer keys, product keys).  Governance: Added load_timestamp audit columns for data lineage tracking.  🛠️ Technology StackCategoryCurrent Phase (Prototype)   PDFFuture Phase (Modern Cloud Stack)   PDFDatabaseSQL Server (On-Premise)Google BigQueryETL / LogicT-SQL, PythonPython, T-SQL, dbt (SQL)OrchestrationManual / Stored ProceduresApache AirflowBI & ReportingPower BIPower BIVersion ControlGit / GitHubGit / GitHub🚀 Future Roadmap: Cloud MigrationTo scale this solution into an enterprise-grade Modern Data Stack, the next phases include:  Apache Airflow Orchestration: Automating the entire pipeline using DAGs to trigger Python ingestion scripts and SQL Stored Procedures.  Google BigQuery Migration: Moving the Silver and Gold layers to a fully managed, scalable cloud data warehouse.  dbt (data build tool) Integration: Replacing SQL Server stored procedures with dbt models to handle Silver-to-Gold transformations, automated testing, and lineage documentation within BigQuery.  📂 Repository StructureSQLQuery_Clean-1.sql: The complete T-SQL script containing schema creations, data quality checks, Silver transformations, Gold layer materialization, and the Stored Procedure for refreshing data.FMCG_Data_Warehouse_Project_Roadmap.pdf: Strategic project documentation and phase planning.
+# 🏬 FMCG Data Warehouse Project
+### Enterprise Data Warehouse using Medallion Architecture (Bronze → Silver → Gold)
+
+![SQL Server](https://img.shields.io/badge/SQL%20Server-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github)
+
+---
+
+# 📌 Project Overview
+
+This project demonstrates the design and implementation of an enterprise-grade **Data Warehouse** for a **Fast-Moving Consumer Goods (FMCG)** company using the **Medallion Architecture (Bronze → Silver → Gold).**
+
+The warehouse integrates data from two business entities:
+
+- 🏢 **Atliqon Parent**
+- 🛒 **SportsBar Acquired**
+
+The goal is to consolidate transactional data, enforce data quality, apply business transformations, and deliver an optimized analytics layer for Business Intelligence reporting.
+
+This project was developed as a professional data engineering portfolio project and follows modern Data Warehouse best practices.
+
+---
+
+# 🎯 Project Objectives
+
+- Build an enterprise Data Warehouse
+- Integrate multiple business entities
+- Apply Data Quality rules
+- Track historical customer changes using SCD Type 2
+- Standardize currencies into USD
+- Build optimized Gold Layer tables
+- Prepare data for Power BI dashboards
+- Design a scalable architecture ready for cloud migration
+
+---
+
+# 🏗️ Architecture
+
+```
+                Source Systems
+                      │
+                      ▼
+            ┌──────────────────┐
+            │   Bronze Layer   │
+            │ Raw Source Data  │
+            └──────────────────┘
+                      │
+                      ▼
+            ┌──────────────────┐
+            │   Silver Layer   │
+            │ Clean & Conform  │
+            └──────────────────┘
+                      │
+                      ▼
+            ┌──────────────────┐
+            │    Gold Layer    │
+            │ Analytics Ready  │
+            └──────────────────┘
+                      │
+                      ▼
+                 Power BI
+```
+
+---
+
+# 🥉 Bronze Layer
+
+The Bronze Layer stores raw source data exactly as received.
+
+### Schemas
+
+- bronze_parent
+- bronze_acquired
+- bronze_shared
+
+### Responsibilities
+
+- Preserve raw records
+- Historical archive
+- No transformations
+- Source of truth
+
+---
+
+# ⚪ Silver Layer
+
+The Silver Layer applies data quality rules and business transformations.
+
+## Data Cleaning
+
+- Standardized product categories
+- Removed numeric suffixes from product names
+- Normalized gender values
+- Fixed inconsistent text formatting
+
+## Deduplication
+
+- Identified duplicate sales
+- Removed over **2,000 duplicate records**
+
+## Business Rules
+
+Negative profit prevention by limiting product cost to:
+
+```
+Product Cost ≤ 70% of Net Price
+```
+
+## Currency Standardization
+
+Converted all transactions into **USD** using shared exchange rate tables.
+
+## Slowly Changing Dimensions (SCD Type 2)
+
+Customer history is preserved using:
+
+- valid_from
+- valid_to
+- is_current
+
+---
+
+# 🥇 Gold Layer
+
+The Gold Layer is optimized for reporting and analytics.
+
+### Features
+
+✔ Unified Parent & Acquired data
+
+✔ Materialized Fact Tables
+
+✔ Optimized Dimension Tables
+
+✔ Clustered Indexes
+
+✔ Non-Clustered Indexes
+
+✔ Audit Columns
+
+### Main Tables
+
+- fact_sales_table
+- dim_customer
+- dim_product
+- dim_store
+- dim_date
+
+---
+
+# 📊 Data Pipeline
+
+```
+CSV Files
+     │
+     ▼
+Bronze Layer
+     │
+     ▼
+Data Cleaning
+     │
+     ▼
+Business Rules
+     │
+     ▼
+Currency Conversion
+     │
+     ▼
+SCD Type 2
+     │
+     ▼
+Gold Tables
+     │
+     ▼
+Power BI Dashboard
+```
+
+---
+
+# ⚙️ Technologies Used
+
+| Category | Technology |
+|-----------|------------|
+| Database | SQL Server |
+| Language | T-SQL |
+| Data Generation | Python |
+| BI | Power BI |
+| Version Control | Git & GitHub |
+
+---
+
+# 🚀 Future Cloud Roadmap
+
+The current implementation is an **on-premise SQL Server prototype**.
+
+The future architecture will migrate to a modern cloud data stack.
+
+| Current | Future |
+|----------|--------|
+| SQL Server | Google BigQuery |
+| Stored Procedures | dbt |
+| Manual Execution | Apache Airflow |
+| Local Database | Cloud Data Warehouse |
+| Power BI | Power BI |
+
+---
+
+# 🔮 Planned Enhancements
+
+- Apache Airflow DAGs
+- Google BigQuery
+- dbt Models
+- Automated Testing
+- Data Lineage
+- Incremental Loading
+- CI/CD Pipeline
+- Docker Deployment
+- Data Catalog
+- Monitoring & Logging
+
+---
+
+# 📁 Repository Structure
+
+```
+FMCG-Data-Warehouse/
+│
+├── SQLQuery_Clean-1.sql
+│
+├── FMCG_Data_Warehouse_Project_Roadmap.pdf
+│
+├── README.md
+│
+└── images/
+      architecture.png
+      pipeline.png
+```
+
+---
+
+# 📈 Key Features
+
+- Enterprise Medallion Architecture
+- Data Quality Framework
+- Multi-company Integration
+- SCD Type 2 Implementation
+- Currency Normalization
+- Materialized Gold Layer
+- Query Performance Optimization
+- Audit & Lineage Columns
+- BI Ready Dataset
+
+---
+
+# 📚 Skills Demonstrated
+
+- Data Warehousing
+- ETL Development
+- SQL Server
+- T-SQL
+- Data Modeling
+- Star Schema Design
+- SCD Type 2
+- Data Cleaning
+- Performance Tuning
+- Indexing
+- Business Rules
+- Data Governance
+- Power BI
+
+---
+
+# 📌 Project Status
+
+✅ Bronze Layer Completed
+
+✅ Silver Layer Completed
+
+✅ Gold Layer Completed
+
+✅ Performance Optimization Completed
+
+🚧 Cloud Migration (Planned)
+
+🚧 Apache Airflow
+
+🚧 Google BigQuery
+
+🚧 dbt Integration
+
+---
+
+# 👨‍💻 Author
+
+**Mohamed Minyar**
+
+AI & Data Engineer
+
+- SQL Server
+- Data Engineering
+- Python
+- Machine Learning
+- Power BI
+- Google BigQuery (Planned)
+
+---
+
+## ⭐ If you found this project helpful, consider giving it a Star!
