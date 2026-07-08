@@ -295,10 +295,15 @@ FMCG-Data-Warehouse/
 # 👨‍💻 Authors
 
 **Mohamed Minyar**
+
 **Yassa**
+
 **ElSayed**
+
 **Amr Elaymani**
+
 **Ali**
-**Mohamed ElShabasy**
+
+**Mohamed Elshabasy**
 
 ## ⭐ If you found this project helpful, consider giving it a Star!
