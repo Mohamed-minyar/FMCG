@@ -292,19 +292,13 @@ FMCG-Data-Warehouse/
 
 ---
 
-# 👨‍💻 Author
+# 👨‍💻 Authors
 
 **Mohamed Minyar**
-
-AI & Data Engineer
-
-- SQL Server
-- Data Engineering
-- Python
-- Machine Learning
-- Power BI
-- Google BigQuery (Planned)
-
----
+**Yassa**
+**ElSayed**
+**Amr Elaymani**
+**Ali**
+**Mohamed ElShabasy**
 
 ## ⭐ If you found this project helpful, consider giving it a Star!
