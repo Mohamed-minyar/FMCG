@@ -344,7 +344,7 @@ pip install -r requirements.txt
 
 ---
 
-# 👨‍💻 Author
+# 👨‍💻 Authors
 
 **Yassa Saied**
 
@@ -357,6 +357,8 @@ pip install -r requirements.txt
 **Ali**
 
 **Amr Alyamany**
+
+
 
 
 **Technologies**
