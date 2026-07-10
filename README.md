@@ -281,9 +281,7 @@ Detailed product-level analysis with:
 
 ## Dashboard Preview
 
-```markdown
 ![Dashboard](docs/dashboard.jpeg)
-```
 
 ---
 
