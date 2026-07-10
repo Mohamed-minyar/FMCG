@@ -1,0 +1,26 @@
+# ============================================================
+# requirements.txt — Mohamed Elshabasy's bridge dependencies
+# ============================================================
+# Core data stack
+pandas>=2.0,<3.0
+numpy>=1.24,<2.0
+pyarrow>=14.0,<20.0
+SQLAlchemy>=2.0,<3.0
+pyodbc>=5.0,<6.0
+python-dotenv>=1.0,<2.0
+
+# Cloud (Phase 3 — BigQuery upload)
+google-cloud-storage>=2.10,<3.0
+google-cloud-bigquery>=3.20,<4.0
+
+# Testing
+pytest>=7.0,<9.0
+
+# Notes
+# -----
+# ODBC Driver 17 for SQL Server must also be installed on the host:
+#   • Linux (Debian/Ubuntu):  apt-get install -y msodbcsql17
+#   • macOS:                   brew tap microsoft/mssql-release &&
+#                             brew install msodbcsql17 mssql-tools
+#   • Windows:                 download from
+#                             https://learn.microsoft.com/sql/connect/odbc/download-odbc-driver-for-sql-server
