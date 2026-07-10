@@ -142,7 +142,6 @@ FMCG-Data-Warehouse
 | Cloud Warehouse | Google BigQuery |
 | Orchestration | Apache Airflow |
 | BI & Visualization | Power BI |
-| Version Control | Git & GitHub |
 
 ---
 
