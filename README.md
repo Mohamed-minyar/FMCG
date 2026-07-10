@@ -357,9 +357,8 @@ pip install -r requirements.txt
 **Ali**
 
 **Amr Alyamany**
-
-
-*Technologies*
+---
+**Technologies**
 
 - SQL Server
 - Python
