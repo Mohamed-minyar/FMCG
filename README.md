@@ -1,307 +1,379 @@
-# 🏬 FMCG Data Warehouse Project
-### Enterprise Data Warehouse using Medallion Architecture (Bronze → Silver → Gold)
+# 🏬 FMCG Enterprise Data Warehouse
+### SQL Server • Python • Apache Airflow • Google BigQuery • Power BI
 
-![SQL Server](https://img.shields.io/badge/SQL%20Server-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)
+![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
+![Apache Airflow](https://img.shields.io/badge/Apache_Airflow-017CEE?style=for-the-badge&logo=apacheairflow&logoColor=white)
+![BigQuery](https://img.shields.io/badge/Google_BigQuery-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power_BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
 
 ---
 
 # 📌 Project Overview
 
-This project demonstrates the design and implementation of an enterprise-grade **Data Warehouse** for a **Fast-Moving Consumer Goods (FMCG)** company using the **Medallion Architecture (Bronze → Silver → Gold).**
+This project demonstrates the design and implementation of an **Enterprise Data Warehouse** for a Fast-Moving Consumer Goods (FMCG) company using the **Medallion Architecture (Bronze → Silver → Gold)**.
 
-The warehouse integrates data from two business entities:
+The solution integrates data from two business entities:
 
-- 🏢 **Atliqon Parent**
-- 🛒 **SportsBar Acquired**
+- **Atliqon Parent**
+- **SportsBar Acquired**
 
-The goal is to consolidate transactional data, enforce data quality, apply business transformations, and deliver an optimized analytics layer for Business Intelligence reporting.
-
-This project was developed as a professional data engineering portfolio project and follows modern Data Warehouse best practices.
+The project covers the complete modern data engineering workflow, from SQL Server data warehousing and transformation to automated extraction, cloud migration, orchestration, and business intelligence reporting.
 
 ---
 
-# 🎯 Project Objectives
+# ✨ Key Features
 
-- Build an enterprise Data Warehouse
-- Integrate multiple business entities
-- Apply Data Quality rules
-- Track historical customer changes using SCD Type 2
-- Standardize currencies into USD
-- Build optimized Gold Layer tables
-- Prepare data for Power BI dashboards
-- Design a scalable architecture ready for cloud migration
-
----
-
-# 🏗️ Architecture
-
-```
-                Source Systems
-                      │
-                      ▼
-            ┌──────────────────┐
-            │   Bronze Layer   │
-            │ Raw Source Data  │
-            └──────────────────┘
-                      │
-                      ▼
-            ┌──────────────────┐
-            │   Silver Layer   │
-            │ Clean & Conform  │
-            └──────────────────┘
-                      │
-                      ▼
-            ┌──────────────────┐
-            │    Gold Layer    │
-            │ Analytics Ready  │
-            └──────────────────┘
-                      │
-                      ▼
-                 Power BI
-```
+- Enterprise Medallion Architecture
+- SQL Server Data Warehouse
+- Data Cleaning & Standardization
+- Slowly Changing Dimension (SCD Type 2)
+- Currency Normalization (USD)
+- Streaming SQL Server Extraction
+- Parquet File Generation
+- Manifest & Metadata Generation
+- Google Cloud Storage Integration
+- Google BigQuery Loading
+- Apache Airflow Orchestration
+- Data Quality Validation
+- Interactive Power BI Dashboard
 
 ---
 
-# 🥉 Bronze Layer
+# 🏗️ Solution Architecture
 
-The Bronze Layer stores raw source data exactly as received.
+```mermaid
+flowchart TD
 
-### Schemas
+A[Source Data] --> B[Bronze Layer]
 
-- bronze_parent
-- bronze_acquired
-- bronze_shared
+B --> C[Silver Layer]
 
-### Responsibilities
+C --> D[Python Bridge]
 
-- Preserve raw records
-- Historical archive
-- No transformations
-- Source of truth
+D --> E[Export to Parquet]
 
----
+E --> F[Generate Manifest]
 
-# ⚪ Silver Layer
+F --> G[Upload to Google Cloud Storage]
 
-The Silver Layer applies data quality rules and business transformations.
+G --> H[Load into BigQuery]
 
-## Data Cleaning
+H --> I[Apache Airflow]
 
-- Standardized product categories
-- Removed numeric suffixes from product names
-- Normalized gender values
-- Fixed inconsistent text formatting
-
-## Deduplication
-
-- Identified duplicate sales
-- Removed over **2,000 duplicate records**
-
-## Business Rules
-
-Negative profit prevention by limiting product cost to:
-
-```
-Product Cost ≤ 70% of Net Price
+I --> J[Power BI Dashboard]
 ```
 
-## Currency Standardization
-
-Converted all transactions into **USD** using shared exchange rate tables.
-
-## Slowly Changing Dimensions (SCD Type 2)
-
-Customer history is preserved using:
-
-- valid_from
-- valid_to
-- is_current
-
 ---
 
-# 🥇 Gold Layer
-
-The Gold Layer is optimized for reporting and analytics.
-
-### Features
-
-✔ Unified Parent & Acquired data
-
-✔ Materialized Fact Tables
-
-✔ Optimized Dimension Tables
-
-✔ Clustered Indexes
-
-✔ Non-Clustered Indexes
-
-✔ Audit Columns
-
-### Main Tables
-
-- fact_sales_table
-- dim_customer
-- dim_product
-- dim_store
-- dim_date
-
----
-
-# 📊 Data Pipeline
+# 🔄 End-to-End Pipeline
 
 ```
-CSV Files
-     │
-     ▼
-Bronze Layer
-     │
-     ▼
-Data Cleaning
-     │
-     ▼
-Business Rules
-     │
-     ▼
-Currency Conversion
-     │
-     ▼
-SCD Type 2
-     │
-     ▼
-Gold Tables
-     │
-     ▼
+Source Data
+      │
+      ▼
+SQL Server
+(Bronze Layer)
+      │
+      ▼
+Silver Layer
+      │
+      ▼
+Python Extraction
+      │
+      ▼
+Parquet Files
+      │
+      ▼
+Google Cloud Storage
+      │
+      ▼
+Google BigQuery
+      │
+      ▼
 Power BI Dashboard
 ```
 
 ---
 
-# ⚙️ Technologies Used
+# 📂 Repository Structure
+
+```
+FMCG-Data-Warehouse
+│
+├── README.md
+├── requirements.txt
+├── .gitignore
+│
+├── sql
+│   └── fmcg_data_warehouse.sql
+│
+├── scripts
+│   ├── config.py
+│   ├── extract_silver_to_parquet.py
+│   ├── upload_to_bigquery.py
+│   └── run_pipeline.py
+│
+├── airflow
+│   └── fmcg_bridge_dag.py
+│
+├── powerbi
+│   └── DEPI.pbix
+│
+├── docs
+│   └── Roadmap.pdf
+│
+└── tests
+    ├── test_connection.py
+    └── test_bridge.py
+```
+
+---
+
+# ⚙️ Technology Stack
 
 | Category | Technology |
 |-----------|------------|
 | Database | SQL Server |
-| Language | T-SQL |
-| Data Generation | Python |
-| BI | Power BI |
+| Data Warehouse | Medallion Architecture |
+| ETL | T-SQL & Python |
+| Data Processing | Pandas & PyArrow |
+| Cloud Storage | Google Cloud Storage |
+| Cloud Warehouse | Google BigQuery |
+| Orchestration | Apache Airflow |
+| BI & Visualization | Power BI |
 | Version Control | Git & GitHub |
 
 ---
 
-# 🚀 Future Cloud Roadmap
+# 🗄️ Data Warehouse Architecture
 
-The current implementation is an **on-premise SQL Server prototype**.
+## 🥉 Bronze Layer
 
-The future architecture will migrate to a modern cloud data stack.
+The Bronze Layer stores raw transactional data from both business entities without modifications.
 
-| Current | Future |
-|----------|--------|
-| SQL Server | Google BigQuery |
-| Stored Procedures | dbt |
-| Manual Execution | Apache Airflow |
-| Local Database | Cloud Data Warehouse |
-| Power BI | Power BI |
+**Schemas**
+
+- bronze_parent
+- bronze_acquired
+- bronze_shared
 
 ---
 
-# 🔮 Planned Enhancements
+## ⚪ Silver Layer
 
-- Apache Airflow DAGs
-- Google BigQuery
-- dbt Models
-- Automated Testing
-- Data Lineage
-- Incremental Loading
-- CI/CD Pipeline
-- Docker Deployment
-- Data Catalog
-- Monitoring & Logging
+The Silver Layer applies business rules and data quality transformations.
 
----
+### Implemented Transformations
 
-# 📁 Repository Structure
-
-```
-FMCG-Data-Warehouse/
-│
-├── SQLQuery_Clean-1.sql
-│
-├── FMCG_Data_Warehouse_Project_Roadmap.pdf
-│
-├── README.md
-│
-└── images/
-      architecture.png
-      pipeline.png
-```
-
----
-
-# 📈 Key Features
-
-- Enterprise Medallion Architecture
-- Data Quality Framework
-- Multi-company Integration
-- SCD Type 2 Implementation
-- Currency Normalization
-- Materialized Gold Layer
-- Query Performance Optimization
-- Audit & Lineage Columns
-- BI Ready Dataset
-
----
-
-# 📚 Skills Demonstrated
-
-- Data Warehousing
-- ETL Development
-- SQL Server
-- T-SQL
-- Data Modeling
-- Star Schema Design
-- SCD Type 2
 - Data Cleaning
-- Performance Tuning
-- Indexing
-- Business Rules
-- Data Governance
-- Power BI
+- Duplicate Removal
+- Product Standardization
+- Gender Normalization
+- Currency Conversion
+- Negative Profit Correction
+- Slowly Changing Dimension Type 2
+- Data Validation
 
 ---
 
-# 📌 Project Status
+## 🥇 Gold Layer
 
-✅ Bronze Layer Completed
+The Gold Layer is optimized for analytics and reporting.
 
-✅ Silver Layer Completed
+Features include:
 
-✅ Gold Layer Completed
-
-✅ Performance Optimization Completed
-
-🚧 Cloud Migration (Planned)
-
-🚧 Apache Airflow
-
-🚧 Google BigQuery
-
-🚧 dbt Integration
+- Unified Sales Tables
+- Materialized Fact Tables
+- Optimized Dimensions
+- Indexed Queries
+- BI-ready Dataset
 
 ---
 
-# 👨‍💻 Authors
-**Yassa**
+# 🐍 Python Bridge
+
+The Python bridge automates the transfer of data from SQL Server to Google BigQuery.
+
+Pipeline steps:
+
+1. Connect to SQL Server
+2. Extract Silver Layer
+3. Stream data in batches
+4. Validate schema
+5. Export Parquet files
+6. Generate metadata manifest
+7. Upload to Google Cloud Storage
+8. Load data into BigQuery
+
+### Additional Features
+
+- Memory-efficient streaming
+- Batch processing
+- Logging
+- Schema enforcement
+- SHA256 checksum generation
+- Command-line execution
+- Dry-run mode
+- Incremental table processing
+
+---
+
+# ☁️ Google Cloud Integration
+
+The cloud pipeline automatically:
+
+- Uploads Parquet files to Google Cloud Storage
+- Creates the BigQuery dataset (if missing)
+- Loads Parquet files into BigQuery
+- Supports Append and Overwrite modes
+
+---
+
+# 🌬️ Apache Airflow
+
+The Airflow DAG automates the complete workflow.
+
+Pipeline Tasks
+
+1. Refresh SQL Server Silver Layer
+2. Extract Silver tables
+3. Generate Parquet files
+4. Upload to Google Cloud Storage
+5. Load into BigQuery
+6. Validate row counts
+7. Complete pipeline execution
+
+---
+
+# 📊 Power BI Dashboard
+
+The Power BI dashboard provides interactive business insights including:
+
+### Executive KPIs
+
+- Total Revenue
+- Total Profit
+- Total Cost
+- Total Quantity
+
+### Sales Analytics
+
+- Revenue by Category
+- Profit by Brand
+- Quantity by Subcategory
+- Revenue Trend
+- Revenue by Gender
+
+### Interactive Filters
+
+- Brand
+- Category
+
+### Product Performance
+
+Detailed product-level analysis with:
+
+- Quantity Sold
+- Revenue
+- Profit
+
+---
+
+## Dashboard Preview
+
+> Replace the path below with your screenshot after uploading it to GitHub.
+
+```markdown
+![Dashboard](docs/dashboard.png)
+```
+
+---
+
+# 🚀 Running the Project
+
+## Execute the complete pipeline
+
+```bash
+python run_pipeline.py
+```
+
+## Refresh Silver Layer before extraction
+
+```bash
+python run_pipeline.py --refresh-silver
+```
+
+## Extract only
+
+```bash
+python run_pipeline.py --extract-only
+```
+
+## Upload only
+
+```bash
+python run_pipeline.py --bq-only
+```
+
+## Overwrite BigQuery tables
+
+```bash
+python run_pipeline.py --overwrite
+```
+
+---
+
+# 📈 Future Improvements
+
+- dbt Integration
+- Docker Support
+- CI/CD Pipeline
+- Incremental Loading
+- Data Quality Framework
+- Great Expectations
+- Cloud Composer
+- Terraform Deployment
+- Monitoring Dashboard
+- Data Catalog
+
+---
+
+# 📦 Requirements
+
+Install the required packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# 👨‍💻 Author
+
+**Yassa Saied**
 
 **Mohamed Minyar**
 
-**ElSayed**
-
-**Amr Elaymani**
-
-**Ali**
+**Alsayed Abdelsamei**
 
 **Mohamed Elshabasy**
 
-## ⭐ If you found this project helpful, consider giving it a Star!
+**Ali**
+
+**Amr Alyamany**
+
+**Technologies**
+
+- SQL Server
+- Python
+- Apache Airflow
+- Google BigQuery
+- Google Cloud Storage
+- Power BI
+- Data Warehousing
+- ETL Development
+
+---
+
+⭐ If you found this project useful, consider giving it a **Star** on GitHub!
