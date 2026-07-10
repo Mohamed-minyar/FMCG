@@ -281,10 +281,8 @@ Detailed product-level analysis with:
 
 ## Dashboard Preview
 
-> Replace the path below with your screenshot after uploading it to GitHub.
-
 ```markdown
-![Dashboard](docs/dashboard.png)
+![Dashboard](docs/dashboard.jpeg)
 ```
 
 ---
